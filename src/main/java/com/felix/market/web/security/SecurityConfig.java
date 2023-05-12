@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 public class SecurityConfig {
@@ -17,10 +18,19 @@ public class SecurityConfig {
     private FelixUserDetailsService felixUserDetailsService;
 
     @Bean
-    public AuthenticationManager authManager (HttpSecurity security) throws Exception{
+    public AuthenticationManager authManager(HttpSecurity security) throws Exception {
         return security.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(felixUserDetailsService)
                 .and().build();
 
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
+
+        return security.csrf().disable().authorizeRequests().antMatchers("/**/authenticate").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and().build();
     }
 }
