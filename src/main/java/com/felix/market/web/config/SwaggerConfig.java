@@ -15,7 +15,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerConfig {
 
     @Bean
-    public Docket api(){
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.felix.market.web.controller"))
@@ -23,7 +23,7 @@ public class SwaggerConfig {
                 .build().apiInfo(appInfo());
     }
 
-    private ApiInfo appInfo(){
+    private ApiInfo appInfo() {
         return new ApiInfoBuilder().title("Products API")
                 .description("Service to manage products of a supermarket")
                 .license("Apache 2.0")
